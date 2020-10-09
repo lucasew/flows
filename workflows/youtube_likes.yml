@@ -1,0 +1,32 @@
+# https://www.googleapis.com/youtube/v3/videos?part=snippet&myRating=like&key=[YOUR_API_KEY]' \
+#   --header 'Authorization: Bearer [YOUR_ACCESS_TOKEN]' \
+#   --header 'Accept: application/json' \
+#   --compressed
+
+on:
+    script:
+        youtube_token: ${{secrets.YOUTUBE_TOKEN}}
+        run: |
+            const result = await helpers.axios.get("https://www.googleapis.com/youtube/v3/videos", {
+                params: {
+                    part: "snippet",
+                    myRating: "like"
+                },
+                headers: {
+                    Authorization: `Bearer ${options.youtube_token}`
+                }
+            })
+            const data = result.data.items
+            return data
+        deduplicationKey: id
+jobs:
+    pipedream:
+        name: Pipedream
+        runs-on: ubuntu-latest
+        steps:
+            - name: Post
+              uses: indiesdev/curl@v1
+              with:
+                  url: ${{secrets.PIPEDREAM_HOJE}}
+                  method: POST
+                  body: '#youtube ${{on.script.outputs.snippet.title}} https://youtu.be/${{on.script.outputs.id}}'
