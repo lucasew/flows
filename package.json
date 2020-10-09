@@ -16,6 +16,7 @@
     "build": "actionsflow build",
     "start": "npm run build",
     "act": "act --workflows ./dist/workflows --secret-file ./dist/.secrets --eventpath ./dist/event.json --env-file ./dist/.env",
+    "invoke": "act --workflows ./dist/workflows --secret-file ./dist/.secrets --eventpath ./dist/event.json --env-file ./dist/.env --verbose",
     "clean": "actionsflow clean",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

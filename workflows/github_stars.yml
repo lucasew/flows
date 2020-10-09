@@ -1,0 +1,17 @@
+on:
+    script:
+        run: |
+            const result = await helpers.axios.get("https://api.github.com/users/lucasew/starred")
+            return result.data
+        deduplicationKey: node_id
+jobs:
+    pipedream:
+        name: Pipedream
+        runs-on: ubuntu-latest
+        steps:
+            - name: Post
+              uses: indiesdev/curl@v1
+              with:
+                  url: ${{secrets.PIPEDREAM_HOJE}}
+                  method: POST
+                  body: '#github ${{on.script.outputs.full_name}} ${{on.script.outputs.html_url}}'
