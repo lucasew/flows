@@ -5,15 +5,16 @@
 
 on:
     script:
-        youtube_token: ${{secrets.YOUTUBE_TOKEN}}
+        key_manager: ${{secrets.KEY_MANAGER}}
         run: |
+            const keys = await helpers.axios.get(options.key_manager)
             const result = await helpers.axios.get("https://www.googleapis.com/youtube/v3/videos", {
                 params: {
                     part: "snippet",
-                    myRating: "like"
+                    myRating: "like",
                 },
                 headers: {
-                    Authorization: `Bearer ${options.youtube_token}`
+                    Authorization: `Bearer ${keys.data.youtube_data_api.oauth_access_token}`,
                 }
             })
             const data = result.data.items
