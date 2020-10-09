@@ -1,0 +1,30 @@
+on:
+    script:
+        consumer_key: ${{secrets.POCKET_CONSUMER_KEY}}
+        access_token: ${{secrets.POCKET_REQUEST_TOKEN}}
+        run: |
+            const result = await helpers.axios.get("https://getpocket.com/v3/get", {
+                params: {
+                    consumer_key: options.consumer_key,
+                    access_token: options.access_token,
+                    favorite: 1,
+                    state: "all",
+                    sort: "newest",
+                    count: 10
+                }
+            })
+            const data = result.data.list
+            const keys = Object.keys(data)
+            return keys.map(key => data[key])
+        deduplicationKey: resolved_id
+jobs:
+    pipedream:
+        name: Pipedream
+        runs-on: ubuntu-latest
+        steps:
+            - name: Post
+              uses: indiesdev/curl@v1
+              with:
+                  url: ${{secrets.PIPEDREAM_HOJE}}
+                  method: POST
+                  body: '#pocket ${{on.script.outputs.resolved_title}} ${{on.script.outputs.resolved_url}}'
