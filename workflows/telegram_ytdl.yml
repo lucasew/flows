@@ -9,7 +9,7 @@ jobs:
         steps:
             - name: Download video
               run:
-                python -m youtube-dl
+                python3 -m youtube-dl
                     '${{on.telegram_bot.outputs.text}}' -o out 2> stderr.txt || true
             - name: Send video
               run:
