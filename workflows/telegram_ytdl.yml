@@ -17,7 +17,7 @@ jobs:
                     -F chat_id=${{on.telegram_bot.outputs.chat.id}}
                     -F video=@out
                     -F reply_to_message_id=${{on.telegram_bot.outputs.message_id}}
-                    https://api.telegram.org/bot${{secrets.TELEGRAM_YTDL}}/sendVideo 2>> stderr.txt
+                    https://api.telegram.org/bot${{secrets.TELEGRAM_YTDL}}/sendVideo 2>> stderr.txt || true
             - name: Send logs
               run:
                 curl -v 
