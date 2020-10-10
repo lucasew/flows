@@ -10,10 +10,10 @@ jobs:
             - name: Handle command
               env:
                 TELEGRAM_TOKEN: ${{secrets.TELEGRAM_YTDL}}
-              run: |+
-                YOUTUBE_DL=./node_modules/youtube-dl/bin/youtube-dl
-                $YOUTUBE_DL '${{on.telegram_bot.outputs.text}}' -o - |  curl -v \
-                    -F chat_id=${{on.telegram_bot.outputs.chat.id}} \
-                    -F video=- \
-                    -F reply_to_message_id=${{on.telegram_bot.outputs.message.id}} \
+              run:
+                ./node_modules/youtube-dl/bin/youtube-dl
+                    '${{on.telegram_bot.outputs.text}}' -o - |  curl -v
+                    -F chat_id=${{on.telegram_bot.outputs.chat.id}}
+                    -F video=-
+                    -F reply_to_message_id=${{on.telegram_bot.outputs.message.id}}
                     https://api.telegram.org/bot${{secrets.TELEGRAM_YTDL}}/sendVideo
