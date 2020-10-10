@@ -12,6 +12,7 @@ jobs:
                   apt update
                   apt install python3 -y
                   curl -L https://yt-dl.org/downloads/latest/youtube-dl -o youtube-dl
+                  chmod +x youtube-dl
             - name: Download video
               run:
                 ./youtube-dl
