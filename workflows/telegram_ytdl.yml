@@ -1,0 +1,45 @@
+on:
+    telegram_bot:
+        event: text
+        token: ${{secrets.TELEGRAM_YTDL}}
+        webhook: true
+jobs:
+    handle_message:
+        name: Handle a telegram message
+        runs-on: ubuntu-latest
+        steps:
+            - name: Send hint that I am getting the video, or at least working on it
+              run:
+                  curl
+                    -F chat_id=${{on.telegram_bot.outputs.chat.id}}
+                    -F action=record_video
+                    https://api.telegram.org/bot${{secrets.TELEGRAM_YTDL}}/sendChatAction 2>> stderr.txt || true
+            - name: Setup
+              run: |
+                  apt update
+                  apt install python3 python3-pip curl -y
+                  pip3 install youtube-dl
+            - name: Download video
+              run:
+                youtube-dl
+                    '${{on.telegram_bot.outputs.text}}' -o out 2>> stderr.txt || true
+            - name: Send hint that I am uploading the video
+              run:
+                  curl
+                    -F chat_id=${{on.telegram_bot.outputs.chat.id}}
+                    -F action=upload_video
+                    https://api.telegram.org/bot${{secrets.TELEGRAM_YTDL}}/sendChatAction 2>> stderr.txt || true
+            - name: Send video
+              run:
+                curl 
+                    -F chat_id=${{on.telegram_bot.outputs.chat.id}}
+                    -F video=@out
+                    -F reply_to_message_id=${{on.telegram_bot.outputs.message_id}}
+                    https://api.telegram.org/bot${{secrets.TELEGRAM_YTDL}}/sendVideo 2>> stderr.txt || true
+            - name: Send logs
+              run:
+                curl 
+                    -F chat_id=${{on.telegram_bot.outputs.chat.id}}
+                    -F document=@stderr.txt
+                    -F reply_to_message_id=${{on.telegram_bot.outputs.message_id}}
+                    https://api.telegram.org/bot${{secrets.TELEGRAM_YTDL}}/sendDocument
