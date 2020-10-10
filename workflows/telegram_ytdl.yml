@@ -14,4 +14,10 @@ jobs:
                     -F chat_id=${{on.telegram_bot.outputs.chat.id}}
                     -F video=-
                     -F reply_to_message_id=${{on.telegram_bot.outputs.message.id}}
-                    https://api.telegram.org/bot${{secrets.TELEGRAM_YTDL}}/sendVideo
+                    https://api.telegram.org/bot${{secrets.TELEGRAM_YTDL}}/sendVideo 
+                ||
+                    curl -v 
+                        -F chat_id=${{on.telegram_bot.outputs.chat.id}}
+                        -F text='Não foi possível baixar ${{on.telegram_bot.outputs.text}}'
+                        https://api.telegram.org/bot${{secrets.TELEGRAM_YTDL}}/sendMessage
+
