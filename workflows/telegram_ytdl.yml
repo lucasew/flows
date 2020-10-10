@@ -8,8 +8,6 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Handle command
-              env:
-                TELEGRAM_TOKEN: ${{secrets.TELEGRAM_YTDL}}
               run:
                 ./node_modules/youtube-dl/bin/youtube-dl
                     '${{on.telegram_bot.outputs.text}}' -o - |  curl -v
