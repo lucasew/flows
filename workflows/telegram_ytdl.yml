@@ -7,20 +7,21 @@ jobs:
         name: Handle a telegram message
         runs-on: ubuntu-latest
         steps:
-            - name: Handle command
+            - name: Download video
               run:
                 ./node_modules/youtube-dl/bin/youtube-dl
                     '${{on.telegram_bot.outputs.text}}' -o out 2> stderr.txt 
-                &&
-                    curl -v
+            - name: Send video
+              run:
+                curl -v
                     -F chat_id=${{on.telegram_bot.outputs.chat.id}}
                     -F video=@out
                     -F reply_to_message_id=${{on.telegram_bot.outputs.message.id}}
                     https://api.telegram.org/bot${{secrets.TELEGRAM_YTDL}}/sendVideo 2>> stderr.txt
-                ||
-                    curl -v 
-                        -F chat_id=${{on.telegram_bot.outputs.chat.id}}
-                        -F text=@stderr.txt
-                        -F reply_to_message_id=${{on.telegram_bot.outputs.message.id}}
-                        https://api.telegram.org/bot${{secrets.TELEGRAM_YTDL}}/sendMessage
-
+            - name: Send logs
+              run:
+                curl -v 
+                    -F chat_id=${{on.telegram_bot.outputs.chat.id}}
+                    -F text=@stderr.txt
+                    -F reply_to_message_id=${{on.telegram_bot.outputs.message.id}}
+                    https://api.telegram.org/bot${{secrets.TELEGRAM_YTDL}}/sendMessage
