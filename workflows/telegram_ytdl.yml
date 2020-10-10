@@ -16,12 +16,12 @@ jobs:
                 curl -v
                     -F chat_id=${{on.telegram_bot.outputs.chat.id}}
                     -F video=@out
-                    -F reply_to_message_id=${{on.telegram_bot.outputs.message.id}}
+                    -F reply_to_message_id=${{on.telegram_bot.outputs.message_id}}
                     https://api.telegram.org/bot${{secrets.TELEGRAM_YTDL}}/sendVideo 2>> stderr.txt
             - name: Send logs
               run:
                 curl -v 
                     -F chat_id=${{on.telegram_bot.outputs.chat.id}}
                     -F text=@stderr.txt
-                    -F reply_to_message_id=${{on.telegram_bot.outputs.message.id}}
+                    -F reply_to_message_id=${{on.telegram_bot.outputs.message_id}}
                     https://api.telegram.org/bot${{secrets.TELEGRAM_YTDL}}/sendMessage
