@@ -9,8 +9,7 @@ jobs:
         steps:
             - uses: actions/setup-python@v2
               with:
-                python-version: '3.x'
-                architecture: 'x64'
+                architecture: 'x86'
             - name: Setup youtube-dl
               run: |
                   curl -L https://yt-dl.org/downloads/latest/youtube-dl -o youtube-dl
