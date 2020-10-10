@@ -14,8 +14,9 @@ jobs:
       - uses: actions/setup-python@v2
       - name: Setup youtube-dl
         run: |
-            curl -L https://yt-dl.org/downloads/latest/youtube-dl -o youtube-dl
-            chmod +x youtube-dl
+            pip install youtube-dl
+            # curl -L https://yt-dl.org/downloads/latest/youtube-dl -o youtube-dl
+            # chmod +x youtube-dl
       - name: Run Actionsflow
         uses: actionsflow/actionsflow-action@v1
         with:
