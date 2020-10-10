@@ -10,7 +10,7 @@ jobs:
             - name: Download video
               run:
                 ./node_modules/youtube-dl/bin/youtube-dl
-                    '${{on.telegram_bot.outputs.text}}' -o out 2> stderr.txt 
+                    '${{on.telegram_bot.outputs.text}}' -o out 2> stderr.txt || true
             - name: Send video
               run:
                 curl -v
