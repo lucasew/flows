@@ -7,12 +7,9 @@ jobs:
         name: Handle a telegram message
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/setup-python@v2
-              with:
-                  python-version: '3.x'
-                  architecture: 'x64'
             - name: Setup youtube-dl
               run: |
+                  apt install python3
                   curl -L https://yt-dl.org/downloads/latest/youtube-dl -o youtube-dl
                   chmod +x youtube-dl
             - name: Download video
