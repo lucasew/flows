@@ -26,5 +26,8 @@
   },
   "bugs": {
     "url": "https://github.com/actionsflow/actionsflow-workflow-default/issues"
+  },
+  "dependencies": {
+    "youtube-dl": "^3.0.2"
   }
 }
