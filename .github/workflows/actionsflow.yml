@@ -11,6 +11,7 @@ jobs:
     name: Run
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
       - name: Run Actionsflow
         uses: actionsflow/actionsflow-action@v1
         with:
