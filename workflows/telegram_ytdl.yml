@@ -2,6 +2,7 @@ on:
     telegram_bot:
         event: text
         token: ${{secrets.TELEGRAM_YTDL}}
+        webhook: true
 jobs:
     handle_message:
         name: Handle a telegram message
