@@ -8,6 +8,12 @@ jobs:
         name: Handle a telegram message
         runs-on: ubuntu-latest
         steps:
+            - name: Send hint that I am getting the video, or at least working on it
+              run:
+                  curl
+                    -F chat_id=${{on.telegram_bot.outputs.chat.id}}
+                    -F action=record_video
+                    https://api.telegram.org/bot${{secrets.TELEGRAM_YTDL}}/sendChatAction 2>> stderr.txt || true
             - name: Setup
               run: |
                   apt update
@@ -16,7 +22,13 @@ jobs:
             - name: Download video
               run:
                 youtube-dl
-                    '${{on.telegram_bot.outputs.text}}' -o out 2> stderr.txt || true
+                    '${{on.telegram_bot.outputs.text}}' -o out 2>> stderr.txt || true
+            - name: Send hint that I am uploading the video
+              run:
+                  curl
+                    -F chat_id=${{on.telegram_bot.outputs.chat.id}}
+                    -F action=upload_video
+                    https://api.telegram.org/bot${{secrets.TELEGRAM_YTDL}}/sendChatAction 2>> stderr.txt || true
             - name: Send video
               run:
                 curl 
