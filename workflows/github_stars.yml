@@ -14,4 +14,4 @@ jobs:
               with:
                   url: ${{secrets.PIPEDREAM_HOJE}}
                   method: POST
-                  body: '#github ${{on.script.outputs.full_name}} ${{on.script.outputs.html_url}}'
+                  body: '#github ${{on.script.outputs.description}} https://github.com/${{on.script.outputs.full_name}}'
