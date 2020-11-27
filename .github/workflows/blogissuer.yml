@@ -1,0 +1,34 @@
+name: Issue2Post
+
+# Controls when the action will run. 
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        with:
+            repository: 'lucasew/blog'
+            token: ${{ secrets.GITHUB }}
+      - name: Install Go
+        uses: actions/setup-go@v2
+      - name: Run post generator
+        run: ./utils/run
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB }}
+      - name: Clue about what have
+        run: git status && find
+      - name: Setup git
+        run: git config --global user.email "lucas59356@gmail.com" && git config --global user.name "lucasew's worker"
+      - name: Push changes
+        run: git add -A && git commit -m "issue2post" && git push origin master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB }}
