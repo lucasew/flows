@@ -1,0 +1,36 @@
+name: pocket2kindle
+
+on:
+  workflow_dispatch:
+   inputs:
+    amount:
+      description: How many articles to deliver
+      required: true
+      default: 10
+    fetchTimeout:
+      description: Timeout to fetch all the articles
+      required: true
+      default: 30
+jobs:
+  setupAndSend:
+    name: Setup and send
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Install go
+      uses: actions/setup-go@v2
+    - name: Install calibre
+      run: sudo apt update && sudo apt install calibre
+    - name: Get p2k binary
+      run: go get -v github.com/lucasew/pocket2kindle/cmd/p2k
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v2
+    - name: Run
+      run: /home/runner/go/bin/p2k -k ${{ secrets.KINDLE_EMAIL }} -c ${{ github.event.inputs.amount }} -t ${{ github.event.inputs.fetchTimeout }} -a
+      env:
+        POCKET_CONSUMER_KEY: ${{ secrets.POCKET_CONSUMER_KEY }}
+        POCKET_REQUEST_TOKEN: ${{ secrets.POCKET_REQUEST_TOKEN }}
+        SMTP_PASSWD: ${{secrets.SMTP_PASSWD}}
+        SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+        SMTP_USER: ${{ secrets.SMTP_USER }}
