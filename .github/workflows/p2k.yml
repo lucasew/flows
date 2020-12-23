@@ -27,7 +27,7 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
     - name: Run
-      run: /home/runner/go/bin/p2k -k ${{ secrets.KINDLE_EMAIL }} -c ${{ github.event.inputs.amount }} -t ${{ github.event.inputs.fetchTimeout }} -a
+      run: /home/runner/go/bin/p2k -d -k ${{ secrets.KINDLE_EMAIL }} -c ${{ github.event.inputs.amount }} -t ${{ github.event.inputs.fetchTimeout }} -a
       env:
         POCKET_CONSUMER_KEY: ${{ secrets.POCKET_CONSUMER_KEY }}
         POCKET_REQUEST_TOKEN: ${{ secrets.POCKET_REQUEST_TOKEN }}
