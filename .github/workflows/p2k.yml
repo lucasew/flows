@@ -23,7 +23,7 @@ jobs:
     - name: Run
       run: |-
         env > /tmp/env
-        docker run -ti --env-file /tmp/env docker.pkg.github.com/lucasew/pocket2kindle/p2k:latest
+        docker run -i --env-file /tmp/env docker.pkg.github.com/lucasew/pocket2kindle/p2k:latest
       env:
         POCKET_CONSUMER_KEY: ${{ secrets.POCKET_CONSUMER_KEY }}
         POCKET_REQUEST_TOKEN: ${{ secrets.POCKET_REQUEST_TOKEN }}
