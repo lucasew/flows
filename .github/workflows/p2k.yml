@@ -28,9 +28,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Run
       run: |-
-        tmp=$(mktemp)
-        mkdir "$tmp"
-        pushd "$tmp"
+        pushd "$(mktemp -d)"
           /home/runner/go/bin/p2k -d -k ${{ secrets.KINDLE_EMAIL }} -c ${{ github.event.inputs.amount }} -t ${{ github.event.inputs.fetchTimeout }} -a
         popd
       env:
