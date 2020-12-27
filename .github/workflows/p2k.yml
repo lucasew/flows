@@ -16,14 +16,6 @@ jobs:
     name: Setup and send
     runs-on: ubuntu-latest
     steps:
-
-    - name: Install go
-      uses: actions/setup-go@v2
-    - name: Install calibre
-      run: sudo apt update && sudo apt install calibre
-    - name: Get p2k binary
-      run: go get -v github.com/lucasew/pocket2kindle/cmd/p2k
-
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
     - name: Log into registry
