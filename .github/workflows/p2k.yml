@@ -26,11 +26,12 @@ jobs:
 
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
+    - name: Log into registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
     - name: Run
       run: |-
-        pushd "$(mktemp -d)"
-          /home/runner/go/bin/p2k -d -k ${{ secrets.KINDLE_EMAIL }} -c ${{ github.event.inputs.amount }} -t ${{ github.event.inputs.fetchTimeout }} -a
-        popd
+        env > /tmp/env
+        docker run -ti --env-file /tmp/env docker.pkg.github.com/lucasew/pocket2kindle/p2k:latest
       env:
         POCKET_CONSUMER_KEY: ${{ secrets.POCKET_CONSUMER_KEY }}
         POCKET_REQUEST_TOKEN: ${{ secrets.POCKET_REQUEST_TOKEN }}
