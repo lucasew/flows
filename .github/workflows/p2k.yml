@@ -29,4 +29,4 @@ jobs:
         SMTP_SERVER=${{ secrets.SMTP_SERVER }}
         SMTP_USER=${{ secrets.SMTP_USER }}
         ' > /tmp/env
-        docker run -i --env-file /tmp/env docker.pkg.github.com/lucasew/pocket2kindle/p2k:latest
+        docker run -i --env-file /tmp/env docker.pkg.github.com/lucasew/pocket2kindle/p2k:latest -k ${{ secrets.KINDLE_EMAIL }} -c ${{ github.event.inputs.amount }} -t ${{ github.event.inputs.fetchTimeout }} -a
