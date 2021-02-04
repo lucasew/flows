@@ -1,0 +1,35 @@
+# This is a basic workflow to help you get started with Actions
+
+name: RandomTube
+
+# Controls when the action will run. 
+on:
+  repository_dispatch:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * *"
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+        with:
+          go-version: "1.15"
+      - uses: actions/checkout@v2.3.4
+        with:
+          repository: lucasew/randomtube
+          token: ${{ secrets.GITHUB }}
+          path: /home/runner/work/flows/flows/rt
+          ref: master
+      - run: $(cd rt/cmd/randomtube; go build -o /tmp/rt .)
+      - run: sudo apt update -y && sudo apt install ffmpeg -y
+      - run: ffmpeg --version || true
+      - run: /tmp/rt -ms 120 -tg "${{ secrets.MEMETUBE_BOT_TELEGRAM }}" -fe "${{ secrets.MEMETUBE_FETCH_ENDPOINT }}"
