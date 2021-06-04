@@ -32,4 +32,4 @@ jobs:
       - run: $(cd rt/cmd/randomtube; go build -o /tmp/rt .)
       - run: sudo apt update -y && sudo apt install ffmpeg -y
       - run: ffmpeg --version || true
-      - run: /tmp/rt -ms 30 -tg "${{ secrets.MEMETUBE_BOT_TELEGRAM }}" -fe "${{ secrets.MEMETUBE_FETCH_ENDPOINT }}"
+      - run: /tmp/rt -ms 120 -tg "${{ secrets.MEMETUBE_BOT_TELEGRAM }}" -fe "${{ secrets.MEMETUBE_FETCH_ENDPOINT }}"
