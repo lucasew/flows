@@ -22,6 +22,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v2
-      - run: sudo apt update -y && sudo apt install ffmpeg -y
-      - run: ffmpeg --version || true
-      - run: go run -v github.com/lucasew/randomtube/cmd/randomtube@latest -ms 120 -tg "${{ secrets.MEMETUBE_BOT_TELEGRAM }}" -fe "${{ secrets.MEMETUBE_FETCH_ENDPOINT }}"
+      - uses: FedericoCarboni/setup-ffmpeg@v2
+      - run: ffmpeg -version
+      - run: git clone https://github.com/lucasew/randomtube /tmp/randomtube && (cd /tmp/randomtube; go build -v  -o /tmp/rt ./cmd/randomtube)
+      - run: /tmp/rt -ms 120 -tg "${{ secrets.MEMETUBE_BOT_TELEGRAM }}" -fe "${{ secrets.MEMETUBE_FETCH_ENDPOINT }}"
