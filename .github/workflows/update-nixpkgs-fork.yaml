@@ -1,0 +1,17 @@
+on:
+  schedule:
+    - cron: "0 3 */3 * *"
+  
+jobs:
+  update-nixpkgs:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Update nixpkgs
+      run: |+
+        git clone ssh://git@github.com/lucasew/nixpkgs repo_nixpkgs
+        pushd repo_nixpkgs
+          git remote add upstream ssh://git@github.com/NixOS/nixpkgs
+          for branch in master staging; do
+            git checkout $branch
+            git pull upstream $branch && git push origin $branch
+          done
