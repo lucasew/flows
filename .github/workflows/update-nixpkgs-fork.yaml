@@ -10,10 +10,6 @@ jobs:
     steps:
     - name: Update nixpkgs
       run: |+
-        git clone ssh://git@github.com/lucasew/nixpkgs repo_nixpkgs
-        pushd repo_nixpkgs
-          git remote add upstream ssh://git@github.com/NixOS/nixpkgs
-          for branch in master staging; do
-            git checkout $branch
-            git pull upstream $branch && git push origin $branch
-          done
+        for branch in master staging; do
+          gh repo sync lucasew/nixpkgs -b $branch
+        done
