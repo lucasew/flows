@@ -22,7 +22,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v2
-      - uses: FedericoCarboni/setup-ffmpeg@v2
+      - uses: FedericoCarboni/setup-ffmpeg@v3
       - run: ffmpeg -version
       - run: git clone https://github.com/lucasew/randomtube /tmp/randomtube && (cd /tmp/randomtube; go build -v  -o /tmp/rt ./cmd/randomtube)
       - run: /tmp/rt -ms 120 -tg "${{ secrets.MEMETUBE_BOT_TELEGRAM }}" -fe "${{ secrets.MEMETUBE_FETCH_ENDPOINT }}"
