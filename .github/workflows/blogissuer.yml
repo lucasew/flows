@@ -19,7 +19,7 @@ jobs:
             repository: 'lucasew/blog'
             token: ${{ secrets.GITHUB }}
       - name: Install Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
