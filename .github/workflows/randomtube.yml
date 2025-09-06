@@ -21,7 +21,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v5
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v6
       - uses: FedericoCarboni/setup-ffmpeg@v3
       - run: ffmpeg -version
       - run: git clone https://github.com/lucasew/randomtube /tmp/randomtube && (cd /tmp/randomtube; go build -v  -o /tmp/rt ./cmd/randomtube)
