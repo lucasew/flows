@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Run
     steps:
-      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
       - name: Run Actionsflow
         uses: actionsflow/actionsflow-action@877881186c58832926cbd76fb5674561749f7256 # v1
         with:
